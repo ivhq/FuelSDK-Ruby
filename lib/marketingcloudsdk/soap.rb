@@ -38,7 +38,7 @@ require 'savon'
 require 'marketingcloudsdk/version'
 
 module MarketingCloudSDK
-	
+
 	class SoapResponse < MarketingCloudSDK::Response
 
 		def continue
@@ -133,7 +133,12 @@ module MarketingCloudSDK
 		end
 
 		def wsdl
-			@wsdl ||= 'https://webservice.exacttarget.com/etframework.wsdl'
+			base_url = if self.base_api_url == 'https://www.exacttargetapis.com'
+				'https://webservice.exacttarget.com'
+			else
+				self.base_api_url
+			end
+			@wsdl ||= base_url + '/etframework.wsdl'
 		end
 
 		def soap_client
